@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jupyter
+  labels:
+    name: jupyterhub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: jupyter
+  name: jupyterhub
+spec:
+  type: LoadBalancer
+  selector:
+    name: hub
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: hub
+  namespace: jupyter
+spec:
+  replicas: 1
+  selector:
+    name: hub
+  template:
+    metadata:
+      labels:
+        name: hub
+    spec:
+      containers:
+      - name: hub
+        image: yuvipanda/ocdxjupyterhub:latest
+        livenessProbe:
+          initialDelaySeconds: 60
+          httpGet:
+            path: /hub/login
+            port: 8000
+        env:
+          - name: JPY_COOKIE_SECRET
+            valueFrom:
+              configMapKeyRef:
+                name: hubconfig
+                key: cookie-secret
+          - name: JPY_DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: hubconfig
+                key: db-url
+          - name: JPY_SINGLEUSER_MEMLIMIT
+            valueFrom:
+              configMapKeyRef:
+                name: hubconfig
+                key: memlimit
+        ports:
+          - containerPort: 8000
+            name: hub-proxy
