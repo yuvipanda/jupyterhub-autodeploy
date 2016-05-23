@@ -3,6 +3,7 @@ import boto3
 import botocore
 import subprocess
 import argparse
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
@@ -17,7 +18,7 @@ parser.add_argument(
 args = parser.parse_args()
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-KUBE_AWS = os.path.join(BASE_PATH, 'kube-aws')
+KUBE_AWS = os.path.join(BASE_PATH, sys.platform, 'kube-aws')
 boto3.setup_default_session(region_name=args.region)
 
 os.makedirs(os.path.join(BASE_PATH, args.cluster))
