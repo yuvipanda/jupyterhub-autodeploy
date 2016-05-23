@@ -53,7 +53,7 @@ Change into the __autoaws__ folder
 ----------------------
 ### 2. Add an entry to /etc/hosts
 
-    sudo sed -i '$s/$/\n52.70.194.118 <cluster_name>.omgwtf.in/' /etc/hosts
+    autoaws$ sudo sed -i '$s/$/\n52.70.194.118 <cluster_name>.omgwtf.in/' /etc/hosts
 
 ----------------------
 
@@ -90,9 +90,40 @@ wget https://storage.googleapis.com/kubernetes-release/release/v1.2.4/bin/darwin
 ## JupyterHub Setup in AWS
 
 ### 1. Create the Hub Install into the EC2 instances
+```
+hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig create -f hub.yaml
+hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig create -f config.yaml
+```
+----------------------
+### 2. Download Pods
 
-    hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig create -f hub.yaml
+```
+hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig --namespace=jupyter get pods 
+NAME        READY     STATUS    RESTARTS   AGE
+hub-vi9xy   1/1       Running   0          1m
+```
 
+### 2. View Services
+
+```
+hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig --namespace=jupyter get svc
+NAME         CLUSTER-IP   EXTERNAL-IP   PORT(S)    AGE
+jupyterhub   10.3.0.40                  8000/TCP   13m
+```
+
+  * NOTE: Due to bug in AWS(?) the EXTERNAL-IP is not provided.
+
+  * To find the public endpoint of the elastic load balancer:
+     * In AWS Dashboard > EC2 Dashboard > Load Balancers
+     * Click on Load Balancer and view description
+``` 
+DNS name: 
+a3c48b0dc211311e685a612e85b7665b-1960005297.us-east-1.elb.amazonaws.com (A Record)
+```
+     * Copy the name and append the port in the Browser to access JupyterHub
+```
+http://a3c48b0dc211311e685a612e85b7665b-1960005297.us-east-1.elb.amazonaws.com:8000/hub/login
+```
 
 
 
@@ -106,10 +137,14 @@ wget https://storage.googleapis.com/kubernetes-release/release/v1.2.4/bin/darwin
 --------------
 ## TO DESTROY AWS CLUSTER
 
-    autoaws$ cd <cluster_name>	
-    autoaws/<cluster_name>$ ../kube-aws destroy
-    CloudFormation stack is being destroyed. This will take several minutes
-
+  1. Log into AWS Dashboard > EC2 Dashboard > Load Balancers
+  1. Remove the load balancer
+  1. Use the Kubernetes to destroy the AWS cluster
+```
+autoaws$ cd <cluster_name>	
+autoaws/<cluster_name>$ ../kube-aws destroy
+CloudFormation stack is being destroyed. This will take several minutes
+```
 ----------------------------
 
 
