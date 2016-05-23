@@ -2,8 +2,13 @@
 JupyterHub, a multi-user server, manages and proxies multiple instances of the single-user <del>IPython</del> Jupyter notebook server. 
 This extension allows a JupyterHub front-end to spawn the JupyterNotebooks into cloud computing infrastructure.
 
-## AWS Auto Deploy Setup Steps: 
-### 0. __Optional__ : Create AWS Access Keys
+## AWS Auto Deploy Setup Steps
+
+Change into the __autoaws__ folder
+
+    cd autoaws
+ 
+### 0. Optional : Create AWS Access Keys
   * Open Amazon AWS "Your Security Credentials"
   * Click "Create New Access Key"
   * Store Credentials in a home directory, ~/.aws/credentials
@@ -62,19 +67,26 @@ This extension allows a JupyterHub front-end to spawn the JupyterNotebooks into 
 
 #### Copy kubectl to your path
 
-    chmod +x kubectl
-    sudo mv kubectl /usr/local/bin/
+    autoaws$ chmod +x kubectl
+    autoaws$ sudo mv kubectl /usr/local/bin/
 
 
 ----------------------
 ### 4. Kubectl to Standup Cluster:
     
-    $ kubectl --kubeconfig=<cluster_name>/kubeconfig get nodes
+    autoaws$ kubectl --kubeconfig=<cluster_name>/kubeconfig get nodes
     NAME                        LABELS                                                                                                                                                                                             STATUS
     ip-10-0-0-50.ec2.internal   kubernetes.io/hostname=ip-10-0-0-50.ec2.internal                                                                                                                                                   Ready,SchedulingDisabled
     ip-10-0-0-64.ec2.internal   beta.kubernetes.io/instance-type=m3.medium,failure-domain.beta.kubernetes.io/region=us-east-1,failure-domain.beta.kubernetes.io/zone=us-east-1c,kubernetes.io/hostname=ip-10-0-0-64.ec2.internal   Ready
     
 ----------------------
+
+
+## JupyterHub Setup in AWS
+
+### 1. Create the Hub Install into the EC2 instances
+
+    hub$ kubectl --kubeconfig=../autoaws/mudsa/kubeconfig create -f hub.yaml
 
 
 
