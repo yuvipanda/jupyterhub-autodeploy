@@ -120,7 +120,9 @@ jupyterhub   10.3.0.40                  8000/TCP   13m
 DNS name: 
 a3c48b0dc211311e685a612e85b7665b-1960005297.us-east-1.elb.amazonaws.com (A Record)
 ```
-     * Copy the name and append the port in the Browser to access JupyterHub
+
+  * Copy the name and append the port in the Browser to access JupyterHub
+
 ```
 http://a3c48b0dc211311e685a612e85b7665b-1960005297.us-east-1.elb.amazonaws.com:8000/hub/login
 ```
