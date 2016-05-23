@@ -58,12 +58,17 @@ Change into the __autoaws__ folder
 ----------------------
 
 ### 3. Kubectl "install":
-    Link :
-[kubectl Guide](http://thockin.github.io/kubernetes/v1.0/docs/getting-started-guides/aws/kubectl.html "kubectl Guide Site")
+For Linux:
 
-#### Download the kubectl CLI tool
+```
+wget https://storage.googleapis.com/kubernetes-release/release/v1.2.4/bin/linux/amd64/kubectl
+```
 
-    wget https://storage.googleapis.com/kubernetes-release/release/v1.0.1/bin/linux/amd64/kubectl
+For OS X:
+
+```
+wget https://storage.googleapis.com/kubernetes-release/release/v1.2.4/bin/darwin/amd64/kubectl
+```
 
 #### Copy kubectl to your path
 
