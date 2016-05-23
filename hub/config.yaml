@@ -7,3 +7,4 @@ data:
   cookie-secret: 5a61766f6f7368306875796f68666965345a6565706132736869653067656974616970686f683375
   db-url: sqlite:////tmp/wat
   memlimit: 2Gi
+  imagespec: 'docker-registry.tools.wmflabs.org/pawsuser:latest'

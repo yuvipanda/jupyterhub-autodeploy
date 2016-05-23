@@ -24,3 +24,5 @@ c.KubeSpawner.hub_ip_connect = '%s:%s' % (os.environ['JUPYTERHUB_SERVICE_HOST'],
 mem_limit = os.environ.get('JPY_SINGLEUSER_MEMLIMIT', '2Gi')
 c.KubeSpawner.mem_limit  = mem_limit
 c.KubeSpawner.mem_request = mem_limit
+
+c.KubeSpawner.singleuser_image_spec = os.environ.get('JPY_SINGLEUSER_IMAGESPEC', 'docker-registry.tools.wmflabs.org/pawsuser:latest')

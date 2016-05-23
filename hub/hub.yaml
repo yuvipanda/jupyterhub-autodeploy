@@ -52,6 +52,11 @@ spec:
               configMapKeyRef:
                 name: hubconfig
                 key: db-url
+          - name: JPY_SINGLEUSER_IMAGESPEC
+            valueFrom:
+              configMapKeyRef:
+                name: hubconfig
+                key: imagespec
           - name: JPY_SINGLEUSER_MEMLIMIT
             valueFrom:
               configMapKeyRef:
